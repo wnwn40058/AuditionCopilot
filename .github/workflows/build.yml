@@ -23,17 +23,15 @@ jobs:
         method: 'network'
         use-cache: 'true'
 
-    # 修正：改用 "Release" 與 "Any CPU"
+    # 直接使用預設 Platform，不再指定名稱
     - name: Build Release
       run: |
-        msbuild AuditionCopilot.sln /p:Configuration=Release /p:Platform="Any CPU"
+        msbuild AuditionCopilot.sln /p:Configuration=Release
 
-    # 上傳產出的檔案 (包打包整個 bin/Release 資料夾)
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
         name: AuditionCopilot-Executable
         path: |
-          **/bin/Release/
-          **/bin/x64/Release/
           **/Release/
+          **/bin/
