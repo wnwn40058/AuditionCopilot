@@ -21,13 +21,19 @@ jobs:
       with:
         cuda: '12.1.0'
         method: 'network'
+        use-cache: 'true'
 
-    - name: Build Release x64
+    # 修正：改用 "Release" 與 "Any CPU"
+    - name: Build Release
       run: |
-        msbuild AuditionCopilot.sln /p:Configuration=Release /p:Platform=x64
+        msbuild AuditionCopilot.sln /p:Configuration=Release /p:Platform="Any CPU"
 
+    # 上傳產出的檔案 (包打包整個 bin/Release 資料夾)
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
         name: AuditionCopilot-Executable
-        path: x64/Release/
+        path: |
+          **/bin/Release/
+          **/bin/x64/Release/
+          **/Release/
